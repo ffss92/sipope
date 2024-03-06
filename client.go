@@ -4,7 +4,6 @@ import (
 	"context"
 	"io"
 	"net/http"
-	"time"
 )
 
 const (
@@ -13,9 +12,8 @@ const (
 )
 
 type Client struct {
-	apiKey  string
-	url     string
-	timeout time.Duration
+	apiKey string
+	url    string
 }
 
 type ClientOptFn func(c *Client)
@@ -34,17 +32,10 @@ func WithCustomURL(customUrl string) ClientOptFn {
 	}
 }
 
-func WithCustomTimeout(dur time.Duration) ClientOptFn {
-	return func(c *Client) {
-		c.timeout = dur
-	}
-}
-
 func NewClient(apiKey string, opts ...ClientOptFn) *Client {
 	c := &Client{
-		apiKey:  apiKey,
-		url:     prodUrl,
-		timeout: 4 * time.Second,
+		apiKey: apiKey,
+		url:    prodUrl,
 	}
 	for _, opt := range opts {
 		opt(c)
